@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
   public function login (Request $request)
   {
+
+    if ($request->logOut) {
+      auth()->logout();
+    }
+
     $login_error = false;
     if (isset($request->user_login) ) {
       $login_error = $this->userLogin($request);
@@ -25,7 +30,7 @@ class UserController extends Controller
 
   public function userLogin (Request $request)
   {
-    if (Auth::attempt([
+    if (auth()->attempt([
       'email' => $request->email,
       'password' => $request->password,
     ])) {
