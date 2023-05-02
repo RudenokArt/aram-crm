@@ -29,8 +29,3 @@
 
 </x-layout>
 
-===============
-list
-pagination
-filter
-search

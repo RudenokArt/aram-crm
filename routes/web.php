@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderListController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,10 @@ use App\Http\Controllers\OrderListController;
 |
 */
 
-Route::match(['get','post'],'/', [OrderListController::class, 'orderList']);
+
+
+Route::match(['get','post'],'/', [OrderListController::class, 'orderList'])->middleware('auth');
+Route::match(['get','post'],'/login/', [UserController::class, 'login'])->name('login');
+
+
 

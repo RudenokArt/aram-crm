@@ -8,14 +8,15 @@ use App\Models\Order;
 class OrderListController extends Controller
 {
   public function orderList () {
+    dump(auth()->user());
     $order_statuses = \Config::get('constants.order_statuses');
-    $src = Order::get();
+    $src = Order::orderBy('id', 'desc')->get();
     foreach ($src as $key => $value) {
       if ($value->status == 'open') {
-        $status_color = 'secondary';
+        $status_color = 'info';
       }
       if ($value->status == 'booked') {
-        $status_color = 'info';
+        $status_color = 'warning';
       }
       if ($value->status == 'in_work') {
         $status_color = 'primary';
