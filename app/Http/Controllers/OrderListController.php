@@ -8,7 +8,6 @@ use App\Models\Order;
 class OrderListController extends Controller
 {
   public function orderList () {
-    dump(auth()->user());
     $order_statuses = \Config::get('constants.order_statuses');
     $src = Order::orderBy('id', 'desc')->get();
     foreach ($src as $key => $value) {

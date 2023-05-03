@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,8 @@
 	<title>Работа монтажнику</title>
 </head>
 <body>
+	<x-header/>
+	
 	{{$slot}}
 </body>
 </html>

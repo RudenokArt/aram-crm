@@ -11,7 +11,7 @@ class UserController extends Controller
   public function login (Request $request)
   {
 
-    if ($request->logOut) {
+    if ($request->logout) {
       auth()->logout();
     }
 
