@@ -8,6 +8,11 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+
+  public function registration () {
+    return view('login/reg');
+  }
+
   public function login (Request $request)
   {
 
@@ -22,7 +27,7 @@ class UserController extends Controller
         return redirect()->intended('/');
       }
     }
-    return view('login', [
+    return view('login/auth', [
       'tab' => $this->tabSelector($request),
       'login_error' => $login_error,
     ]);

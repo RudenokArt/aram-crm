@@ -18,7 +18,8 @@ use App\Http\Controllers\UserController;
 
 
 Route::match(['get','post'],'/', [OrderListController::class, 'orderList'])->middleware('auth');
-Route::match(['get','post'],'/login/', [UserController::class, 'login'])->name('login');
+Route::match(['get','post'],'/login/reg/', [UserController::class, 'registration']);
+Route::match(['get','post'],'/login/auth/', [UserController::class, 'login'])->name('login');
 
 
 
