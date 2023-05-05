@@ -9,8 +9,33 @@ use App\Models\User;
 class UserController extends Controller
 {
 
-  public function registration () {
-    return view('login/reg');
+  public function registration (Request $request) {
+    $reg_error = false;
+    $check = false;
+    if (trim($request->password) != trim($request->confirm_password)) {
+      $reg_error = 'Пароли не совпадают!';
+    } else {
+      if ($request->email) {
+        $check = User::where('email', trim($request->email))->count();
+        if ($check !=0) {
+          $reg_error = 'Пользователь с таким email уже существует!';
+        } else {
+          $user = new User;
+          $user->email = $request->email;
+          $user->name = $request->name;
+          $user->password = $request->password;
+          $user->role = 'contractor';
+          $user->save();
+          Auth()->login($user);
+          $reg_error = 'Регистрация прошла успешно!';
+          return redirect('/');
+        }
+      }
+    }
+    return view('login/reg', [
+      'reg_error' => $reg_error,
+      'check' => $check,
+    ]);
   }
 
   public function login (Request $request)
