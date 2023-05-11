@@ -9,6 +9,21 @@ use App\Models\User;
 class UserController extends Controller
 {
 
+  public function recovery (Request $request) {
+    $recovery = '';
+    if (isset($request['email'])) {
+      $user = User::where('email', trim($request['email']))->get();
+      if ($user->count()) {
+        if ($user[0]->email) {
+          $recovery = $user[0]->email;
+        }
+      }
+    }
+    return view('login/recovery', [
+      'recovery' => $recovery,
+    ]);
+  }
+
   public function registration (Request $request) {
     $reg_error = false;
     $check = false;

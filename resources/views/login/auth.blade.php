@@ -28,4 +28,6 @@
 	</div>
 	@endif
 
+	<a href="/login/recovery/">Забыл пароль</a>
+
 </x-login.layout>

@@ -1,5 +1,5 @@
 <x-layout>
-	<div class="bg-secondary">
+	<div class="bg-light">
 		<div class="container pt-5 pb-5">
 			@foreach ($arOrders as $key=>$value)
 			<a href="#" class="bg-{{$value['status_color']}} row smart_link text-body border-bottom pt-1 pb-1">
