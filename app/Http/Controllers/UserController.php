@@ -1,41 +1,51 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\PHPMailerController;
 
 class UserController extends Controller
 {
 
-  public function passwordGenerate ($user_id) {
+  public function passwordRecovery ($user_id, $email) {
     $str_password = Str::random(8);
     $hash_password = Hash::make($str_password);
     $user = User::find($user_id);
     $user->password = $hash_password;
     $user->save();
-    dump($str_password);
-    dump($hash_password);
-    dump($user_id);
+    $mail = PHPMailerController::SendMail(
+      $email,
+      'Восстановление пароля',
+      'Ваш новый пароль: '.$str_password.'<br>После авторизации вы сможете изменить его в личном кабинете'
+    );
+    return $mail;
   }
 
   public function recovery (Request $request) {
-    $recovery = 'N';
+    $recovery = 'NO';
+    $alert = 'danger';
     if (isset($request['email'])) {
       $user = User::where('email', trim($request['email']))->get();
       if ($user->count()) {
         if ($user[0]->email) {
-          $recovery = $user[0]->email;
-          $this->passwordGenerate($user[0]->id);
+          $response = $this->passwordRecovery($user[0]->id, $user[0]->email);
+          if ($response['status'] == 'success') {
+            $recovery = 'Сгенерированный пароль отправлен на указанную почту';
+            $alert = 'success';
+          } elseif ($response['status'] == 'error') {
+            $recovery = $response['error'];
+          }
         }
       } else {
-        $recovery = 'Y';
+        $recovery = 'NONE';
       }
     }
     return view('login/recovery', [
       'recovery' => $recovery,
+      'alert' => $alert,
     ]);
   }
 

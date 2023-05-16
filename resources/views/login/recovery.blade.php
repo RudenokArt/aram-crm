@@ -18,11 +18,11 @@
 		</button>
 	</div>
 	</form>
-	@if($recovery != 'N' and $recovery != 'Y')
-	<div class="alert alert-success text-center">
-		Сгенерированный пароль отправлен на указанную почту
+	@if($recovery != 'NO' and $recovery != 'NONE')
+	<div class="alert alert-{{$alert}} text-center">
+		{{$recovery}}
 	</div>
-	@elseif($recovery == 'Y')
+	@elseif($recovery == 'NONE')
 	<div class="alert alert-danger text-center">
 		Пользователя с таким email не существует!
 	</div>
