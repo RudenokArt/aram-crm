@@ -4,19 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
 
+  public function passwordGenerate ($user_id) {
+    $str_password = Str::random(8);
+    $hash_password = Hash::make($str_password);
+    $user = User::find($user_id);
+    $user->password = $hash_password;
+    $user->save();
+    dump($str_password);
+    dump($hash_password);
+    dump($user_id);
+  }
+
   public function recovery (Request $request) {
-    $recovery = '';
+    $recovery = 'N';
     if (isset($request['email'])) {
       $user = User::where('email', trim($request['email']))->get();
       if ($user->count()) {
         if ($user[0]->email) {
           $recovery = $user[0]->email;
+          $this->passwordGenerate($user[0]->id);
         }
+      } else {
+        $recovery = 'Y';
       }
     }
     return view('login/recovery', [

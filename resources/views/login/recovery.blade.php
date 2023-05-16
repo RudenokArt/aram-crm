@@ -1,6 +1,6 @@
 <x-login.layout>
 
-	<x-login.tabs>login</x-login.tabs>
+	<x-login.tabs>recovery</x-login.tabs>
 	<form method="post" action="" class="pt-3 pb-3">
 	@csrf
 		<div class="alert alert-info text-center">
@@ -18,11 +18,11 @@
 		</button>
 	</div>
 	</form>
-	@if($recovery)
+	@if($recovery != 'N' and $recovery != 'Y')
 	<div class="alert alert-success text-center">
 		Сгенерированный пароль отправлен на указанную почту
 	</div>
-	@else
+	@elseif($recovery == 'Y')
 	<div class="alert alert-danger text-center">
 		Пользователя с таким email не существует!
 	</div>
