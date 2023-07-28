@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use \Config;
 
 class OrderListController extends Controller
 {
@@ -32,8 +33,8 @@ class OrderListController extends Controller
         'customer_phone' => $value->customer_phone,
         'customer_address' => $value->customer_address,
         'status' => $value->status,
-        'status_name' => $order_statuses[$value->status],
-        'status_color' => $status_color,
+        'status_name' => Config::get('constants.order_statuses')[$value->status]['title'],
+        'status_color' => Config::get('constants.order_statuses')[$value->status]['color'],
         'contractor' => [
           'id' => $value->contractor_data->id,
           'name' => $value->contractor_data->name,

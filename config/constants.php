@@ -9,12 +9,11 @@ return [
 	],
 
 	'order_statuses' => [
-		'open' => 'открыт',
-		'booked' => 'забронирован',
-		'in_work' => 'в работе',
-		'completed' => 'выполнен',
+		'open' => ['title' => 'открыт', 'color' => 'info'],
+		'booked' => ['title' => 'забронирован', 'color' => 'warning'],
+		'in_work' => ['title' => 'в работе', 'color' => 'primary'],
+		'completed' => ['title' => 'выполнен', 'color' => 'success'],
 	],
-
-];
+]
 
 ?>
