@@ -15,7 +15,7 @@
 	<script src="https://use.fontawesome.com/e8a42d7e14.js"></script>
 	{{-- CSS --}}
 	<link rel="stylesheet" href="/css/style.css">
-	<link rel="stylesheet" href="/resources/css/style.css">
+	<link rel="stylesheet" href="/resources/css/style.css?v={{time()}}">
 
 	<!-- ========= -->
 	<title>Работа монтажнику</title>
