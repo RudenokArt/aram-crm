@@ -8,9 +8,26 @@ use \Config;
 
 class OrderListController extends Controller
 {
-  public function orderList () {
+
+  public function orderSort ($arr) {
+    if (!$arr) {
+      return [
+        'order' => 'id',
+        'sort' => 'desc',
+      ];
+    }
+    if ($arr['order'] and $arr['sort']) {
+      return [
+        'order' => $arr['order'],
+        'sort' => $arr['sort'],
+      ];
+    } 
+  }
+
+  public function orderList (Request $request) {
+    $orderBy = self::orderSort($request->input());
     $order_statuses = \Config::get('constants.order_statuses');
-    $src = Order::orderBy('id', 'desc')->get();
+    $src = Order::orderBy($orderBy['order'], $orderBy['sort'])->get();
     foreach ($src as $key => $value) {
       if ($value->status == 'open') {
         $status_color = 'info';
@@ -26,6 +43,7 @@ class OrderListController extends Controller
       }
       $arr[] = [
         'id' => $value->id,
+        'created_at' => $value->created_at->toDateString(),
         'title' => $value->title,
         'content' => $value->content,
         'customer' => $value->customer,
@@ -52,6 +70,7 @@ class OrderListController extends Controller
     }
     return view('order-list', [
       'arOrders' => $arr,
+      'orderBy' => $orderBy,
     ]);
   }
 }

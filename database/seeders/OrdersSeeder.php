@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +17,8 @@ class OrdersSeeder extends Seeder
       $order_statuses = ['open', 'booked', 'in_work', 'completed'];
       for ($i=0; $i < 50; $i++) { 
         DB::table('orders')->insert([
+          'created_at' => Carbon::now()->subDays($i)->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->subDays($i)->format('Y-m-d H:i:s'),
           'status' => $order_statuses[rand(0, 3)],
           'title' => 'Заказ №'.$i.'Далеко-далеко за словесными, горами в стране гласных и согласных живут рыбные тексты',
           'customer' => 'ФИО заказчкика №'.$i,
