@@ -9,8 +9,8 @@ use \Config;
 class OrderListController extends Controller
 {
 
-  public function orderSort ($arr) {
-    if (!$arr) {
+  public function ordersSort ($arr) {
+    if (!isset($arr['order']) or !isset($arr['sort'])) {
       return [
         'order' => 'id',
         'sort' => 'desc',
@@ -25,9 +25,19 @@ class OrderListController extends Controller
   }
 
   public function orderList (Request $request) {
-    $orderBy = self::orderSort($request->input());
+    $orderBy = self::ordersSort($request->input());
     $order_statuses = \Config::get('constants.order_statuses');
-    $src = Order::orderBy($orderBy['order'], $orderBy['sort'])->get();
+    if (isset($request->input()['orderListSearch']) and $request->input()['orderListSearch']) {
+      $search = $request->input()['orderListSearch'];
+      $src = Order::orderBy($orderBy['order'], $orderBy['sort'])
+      ->where('title', 'LIKE', '%'.$search.'%' )
+      ->orwhere('content', 'LIKE', '%'.$search.'%' )
+      ->get();
+    } else {
+      $search = '';
+      $src = Order::orderBy($orderBy['order'], $orderBy['sort'])->get();
+    }
+    
     foreach ($src as $key => $value) {
       if ($value->status == 'open') {
         $status_color = 'info';
@@ -68,9 +78,14 @@ class OrderListController extends Controller
 
       ];
     }
+    if (!isset($arr)) {
+      $arr = [];
+    }
+
     return view('order-list', [
       'arOrders' => $arr,
       'orderBy' => $orderBy,
+      'search' => $search,
     ]);
   }
 }

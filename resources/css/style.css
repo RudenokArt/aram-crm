@@ -1,3 +1,9 @@
 .smart_link {
 	text-decoration: none !important;
 }
+
+@media screen and (max-width: 576px){
+	.order_list-sidebar {
+		display: none;
+	}
+}

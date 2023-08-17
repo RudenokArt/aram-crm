@@ -1,6 +1,6 @@
 <div class="card">
-	<div class="card-header">
-		СОРТИРОВКА:
+	<div class="card-header text-secondary">
+		<b>СОРТИРОВКА:</b>
 	</div>
 	<div class="card-body">
 		<form action="" method="get">
@@ -23,10 +23,10 @@
 			</select>
 
 			<select name="sort" class="form-select mt-2">
-				<option @if($sort=='desc') selected @endif value="desc">
+				<option @if($sort=='asc') selected @endif value="asc">
 					по убыванию
 				</option>
-				<option  @if($sort=='asc') selected @endif value="asc">
+				<option @if($sort=='desc') selected @endif value="desc">
 					по возрастанию
 				</option>
 			</select>
@@ -38,7 +38,7 @@
 </div>
 <hr>
 <div class="card">
-	<div class="card-header h6">Категория:</div>
+	<div class="card-header h6 text-secondary">Категория:</div>
 	<div class="card-body">
 		<form action="">
 			<select class="form-select">
@@ -48,7 +48,7 @@
 			</select>
 		</form>
 	</div>
-	<div class="card-header h6 border-top">
+	<div class="card-header h6 border-top text-secondary">
 		Период:
 	</div>
 	<div class="card-body">

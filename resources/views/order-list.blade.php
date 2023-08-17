@@ -2,13 +2,38 @@
 	<div class="bg-light">
 		<div class="container pt-5 pb-5">
 			<div class="row">
-				<div class="col-lg-3 col-md-4 col-sm-12">
+				<div class="col-12 text-end">
+					<a href="#" id="order_list-sidebar_trigger" class="d-block d-lg-none d-sm-none smart_link">
+						Фильтр
+						<i class="fa fa-chevron-down" aria-hidden="true"></i>
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<div id="order_list-sidebar" class="col-lg-3 col-md-4 col-sm-12 order_list-sidebar">
 					<x-order-list.sidebar>
 						<x-slot name="order">{{$orderBy['order']}}</x-slot>
 						<x-slot name="sort">{{$orderBy['sort']}}</x-slot>
 					</x-order-list.sidebar>
 				</div>
 				<div class="col-lg-9 col-md-8 col-sm-12">
+
+					<form action="" method="get" class="input-group mb-3">
+						<input name="orderListSearch" value="{{$search}}" required type="text" class="form-control">
+						<button class="input-group-text text-secondary" id="basic-addon2">
+							<i class="fa fa-search" aria-hidden="true"></i>
+						</button>
+						<a href="?" class="input-group-text text-secondary smart_link" id="basic-addon2">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</a>
+					</form>
+
+					@if(!$arOrders)
+					<div class="alert alert-danger">
+						По вашему запросу ничего не найдено!
+					</div>
+					@endif
+					
 					@foreach ($arOrders as $key=>$value)
 					<div class="p-2">
 						<a href="#" class="row smart_link text-body pt-3 pb-2 bg-white">
@@ -54,3 +79,11 @@
 
 </x-layout>
 
+<script>
+	$(function() {
+		console.log('order_list-sidebar_trigger');
+		$('#order_list-sidebar_trigger').click(function() {
+			$('#order_list-sidebar').slideToggle();
+		});
+	});
+</script>
