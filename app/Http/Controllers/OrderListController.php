@@ -25,6 +25,7 @@ class OrderListController extends Controller
   }
 
   public function orderList (Request $request) {
+    $pageSize = 10;
     $orderBy = self::ordersSort($request->input());
     $order_statuses = \Config::get('constants.order_statuses');
     if (isset($request->input()['orderListSearch']) and $request->input()['orderListSearch']) {
@@ -32,12 +33,49 @@ class OrderListController extends Controller
       $src = Order::orderBy($orderBy['order'], $orderBy['sort'])
       ->where('title', 'LIKE', '%'.$search.'%' )
       ->orwhere('content', 'LIKE', '%'.$search.'%' )
-      ->get();
+      ->paginate($pageSize);
     } else {
       $search = '';
-      $src = Order::orderBy($orderBy['order'], $orderBy['sort'])->get();
+      $src = Order::orderBy($orderBy['order'], $orderBy['sort'])->paginate($pageSize);
     }
     
+    $arr = $this->orderListHelper($src);
+    
+    return view('order-list', [
+      'arOrders' => $arr,
+      'orderBy' => $orderBy,
+      'search' => $search,
+      'currentPage' => $src->currentPage(),
+      'lastPage' => $src->lastPage(),
+      'pagenationLinks' => $this->pagenationLinks($src),
+    ]);
+  }
+
+  function pagenationLinks ($src) {
+    if (isset($_GET['page'])) {
+      unset($_GET['page']);
+    }
+    $currentPage = $src->currentPage();
+    if ($currentPage > 1) {
+      $previousPage = $currentPage - 1;
+    } else {
+      $previousPage = 1;
+    }
+    $lastPage = $src->lastPage();
+    if ($currentPage < $lastPage) {
+      $nextPage = $currentPage + 1;
+    } else {
+      $nextPage = $lastPage;
+    }
+
+    return [
+      'queryString' => http_build_query($_GET),
+      'previousPage' => $previousPage,
+      'nextPage' => $nextPage,
+    ];
+  }
+
+  public function orderListHelper ($src) {
     foreach ($src as $key => $value) {
       if ($value->status == 'open') {
         $status_color = 'info';
@@ -81,11 +119,6 @@ class OrderListController extends Controller
     if (!isset($arr)) {
       $arr = [];
     }
-
-    return view('order-list', [
-      'arOrders' => $arr,
-      'orderBy' => $orderBy,
-      'search' => $search,
-    ]);
+    return $arr;
   }
 }

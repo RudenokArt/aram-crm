@@ -68,14 +68,67 @@
 							</div>
 						</a>
 					</div>
-					
 					@endforeach
+
+					<div class="row">
+						<div class="col-12">
+							<nav aria-label="Page navigation example">
+								<ul class="pagination">
+									<li class="page-item">
+										<a class="page-link" href="?{{$pagenationLinks['queryString']}}&page={{$pagenationLinks['previousPage']}}">
+											<span aria-hidden="true">
+												<i class="fa fa-chevron-left" aria-hidden="true"></i>
+											</span>
+										</a>
+									</li>
+									@for($i = 1; $i <= $lastPage; $i++)
+									@if($i == $currentPage)
+									<li class="page-item">
+										<a class="page-link text-danger" href="?{{$pagenationLinks['queryString']}}&page={{$i}}">
+											{{$i}}
+										</a>
+									</li>
+									@elseif($i>($currentPage-3)	and	$i<($currentPage+3))
+									<li class="page-item">
+										<a class="page-link" href="?{{$pagenationLinks['queryString']}}&page={{$i}}">
+											{{$i}}
+										</a>
+									</li>
+									@elseif($i==1)
+									<li class="page-item">
+										<a class="page-link" href="?{{$pagenationLinks['queryString']}}&page={{$i}}">
+											{{$i}}
+											<i class="fa fa-angle-double-left" aria-hidden="true"></i>
+										</a>
+									</li>
+									@elseif($i==$lastPage)
+									<li class="page-item">
+										<a class="page-link" href="?{{$pagenationLinks['queryString']}}&page={{$i}}">
+											<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+											{{$i}}
+										</a>
+									</li>
+									@endif
+									@endfor
+
+									<li class="page-item">
+										<a class="page-link" href="?{{$pagenationLinks['queryString']}}&page={{$pagenationLinks['nextPage']}}">
+											<span aria-hidden="true">
+												<i class="fa fa-chevron-right" aria-hidden="true"></i>
+											</span>
+										</a>
+									</li>
+
+								</ul>
+							</nav>
+						</div>
+					</div>
 				</div>
 			</div>
 
 		</div>
 	</div>
-	
+
 
 </x-layout>
 
