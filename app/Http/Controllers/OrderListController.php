@@ -26,19 +26,29 @@ class OrderListController extends Controller
 
   public function orderList (Request $request) {
     $pageSize = 10;
-    $orderBy = self::ordersSort($request->input());
+    $orderBy = $this->ordersSort($request->input());
     $order_statuses = \Config::get('constants.order_statuses');
+    $src = Order::orderBy($orderBy['order'], $orderBy['sort']);
+
     if (isset($request->input()['orderListSearch']) and $request->input()['orderListSearch']) {
       $search = $request->input()['orderListSearch'];
-      $src = Order::orderBy($orderBy['order'], $orderBy['sort'])
+      $src = $src
       ->where('title', 'LIKE', '%'.$search.'%' )
-      ->orwhere('content', 'LIKE', '%'.$search.'%' )
-      ->paginate($pageSize);
+      ->orwhere('content', 'LIKE', '%'.$search.'%' );
     } else {
       $search = '';
-      $src = Order::orderBy($orderBy['order'], $orderBy['sort'])->paginate($pageSize);
     }
-    
+
+    if (isset($request->input()['filter'])) {
+      $filter = $request->input()['filter'];
+      $src = $this->orderFilter($src, $filter);
+    } else {
+      $filter = [
+        'status' => '',
+      ];
+    }
+
+    $src = $src->paginate($pageSize);
     $arr = $this->orderListHelper($src);
     
     return view('order-list', [
@@ -48,7 +58,15 @@ class OrderListController extends Controller
       'currentPage' => $src->currentPage(),
       'lastPage' => $src->lastPage(),
       'pagenationLinks' => $this->pagenationLinks($src),
+      'filter' => $filter,
     ]);
+  }
+
+  function orderFilter ($src, $filter) {
+    if ($filter['status']) {
+      $src = $src->where('status', $filter['status']);
+    }
+    return $src;
   }
 
   function pagenationLinks ($src) {

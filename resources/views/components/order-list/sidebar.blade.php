@@ -5,11 +5,8 @@
 	<div class="card-body">
 		<form action="" method="get">
 			<select name="order" class="form-select">
-				<option @if($order=='id') selected @endif	value="id">
-					По дате создания
-				</option>
-				<option @if($order=='updated_at') selected @endif value="updated_at">
-					По дате обновления
+				<option @if($order=='created_at') selected @endif	value="created_at">
+					По дате
 				</option>
 				<option @if($order=='status') selected @endif value="status">
 					По статусу
@@ -23,30 +20,30 @@
 			</select>
 
 			<select name="sort" class="form-select mt-2">
-				<option @if($sort=='asc') selected @endif value="asc">
+				<option @if($sort=='desc') selected @endif value="desc">
 					по убыванию
 				</option>
-				<option @if($sort=='desc') selected @endif value="desc">
+				<option @if($sort=='asc') selected @endif value="asc">
 					по возрастанию
 				</option>
 			</select>
 			<button class="btn btn-outline-primary mt-2 w-100">
 				<i class="fa fa-check" aria-hidden="true"></i>
 			</button>	
-</form>				
-</div>
+		</form>				
+	</div>
 </div>
 <hr>
-<div class="card">
-	<div class="card-header h6 text-secondary">Категория:</div>
+<form action="" method="get" class="card">
+	<div class="card-header h6 text-secondary">Статус:</div>
 	<div class="card-body">
-		<form action="">
-			<select class="form-select">
-				<option value="">Модульные картины</option>
-				<option value="">Фотообои</option>
-				<option value="">Натяжные потолки</option>
-			</select>
-		</form>
+		<select name="filter[status]" class="form-select">
+			@foreach(Config::get('constants.order_statuses') as $key => $value)
+			<option @if((int)$filterStatus->__toString()==$key) selected @endif value="{{$key}}">
+				{{$value['title']}}
+			</option>
+			@endforeach
+		</select>
 	</div>
 	<div class="card-header h6 border-top text-secondary">
 		Период:
@@ -61,4 +58,12 @@
 			</div>
 		</div>
 	</div>
-</div>
+	<hr>
+	<div class="card-body">
+		<button class="btn btn-outline-primary w-100">
+			<i class="fa fa-filter" aria-hidden="true"></i>
+			Фильтр
+		</button>
+	</div>
+</form>
+

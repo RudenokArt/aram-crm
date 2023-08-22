@@ -14,6 +14,7 @@
 					<x-order-list.sidebar>
 						<x-slot name="order">{{$orderBy['order']}}</x-slot>
 						<x-slot name="sort">{{$orderBy['sort']}}</x-slot>
+						<x-slot name="filterStatus">{{$filter['status']}}</x-slot>
 					</x-order-list.sidebar>
 				</div>
 				<div class="col-lg-9 col-md-8 col-sm-12">

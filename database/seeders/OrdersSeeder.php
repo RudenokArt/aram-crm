@@ -19,7 +19,7 @@ class OrdersSeeder extends Seeder
         DB::table('orders')->insert([
           'created_at' => Carbon::now()->subDays($i)->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->subDays($i)->format('Y-m-d H:i:s'),
-          'status' => $order_statuses[rand(0, 3)],
+          'status' => rand(1, 4),
           'title' => 'Заказ №'.$i.'Далеко-далеко за словесными, горами в стране гласных и согласных живут рыбные тексты',
           'customer' => 'ФИО заказчкика №'.$i,
           'customer_email' => 'mail'.$i.'@mail.ru',
