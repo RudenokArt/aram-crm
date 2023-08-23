@@ -50,12 +50,20 @@
 	</div>
 	<div class="card-body">
 		<div class="row">
-			<div class="col-6">
-				<input type="text" class="form-control">
+			<div class="col-4">
+				с:
 			</div>
-			<div class="col-6">
-				<input type="text" class="form-control">
+			<div class="col-8">
+				<input name="filter[date_from]" @if($dateFrom)value="{{$dateFrom}}"@endif type="text" class="form-control sidebar-filter-datepicker">
 			</div>
+		</div>
+		<div class="row pt-1">
+			<div class="col-4">
+				по:
+			</div>
+			<div class="col-8">
+				<input name="filter[date_to]" @if($dateFrom)value="{{$dateTo}}"@endif type="text" class="form-control sidebar-filter-datepicker">
+			</div>			
 		</div>
 	</div>
 	<hr>
@@ -67,3 +75,10 @@
 	</div>
 </form>
 
+<script>
+	$( function() {
+		$('.sidebar-filter-datepicker').datepicker({
+			dateFormat: "yy-mm-dd"
+		});
+	} );
+</script>

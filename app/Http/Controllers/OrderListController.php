@@ -41,10 +41,12 @@ class OrderListController extends Controller
 
     if (isset($request->input()['filter'])) {
       $filter = $request->input()['filter'];
-      $src = $this->orderFilter($src, $filter);
+      $src = $this->ordersFilter($src, $filter);
     } else {
       $filter = [
         'status' => '',
+        'date_from' => '',
+        'date_to' => '',
       ];
     }
 
@@ -62,9 +64,15 @@ class OrderListController extends Controller
     ]);
   }
 
-  function orderFilter ($src, $filter) {
+  function ordersFilter ($src, $filter) {
     if ($filter['status']) {
       $src = $src->where('status', $filter['status']);
+    }
+    if (isset($filter['date_from']) and $filter['date_from']) {
+      $src = $src->where('created_at', '>', $filter['date_from']);
+    }
+    if (isset($filter['date_to']) and $filter['date_to']) {
+      $src = $src->where('created_at', '<', $filter['date_to']);
     }
     return $src;
   }
