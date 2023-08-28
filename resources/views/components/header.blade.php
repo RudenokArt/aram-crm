@@ -1,4 +1,4 @@
-@if(Route::current()->getName()!='login')
+@if(Route::current()->getName()!='login' and Route::current()->getName()!='registration')
 <div class="header bg-light pt-1 pb-1">
   <div class="container border-bottom">
     <div class="row justify-content-between">
